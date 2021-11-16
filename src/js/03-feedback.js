@@ -10,21 +10,27 @@ const formData = {};
 const STORAGE_KEY = "feedback-form-state";
 
 const onInput = function (event) {
-    formData[event.target.name] = event.target.value;
+    formData[email.name] = email.value;
+    formData[comment.name] = comment.value;
     localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
 }
 const onSubmit = function (event) {
     event.preventDefault();
-    email.value = "";
-    comment.value = "";
-    localStorage.removeItem(STORAGE_KEY);
+    event.target.reset();
+    localStorage.clear();
+    console.log(JSON.stringify(formData));
 }
 
 const savedData = JSON.parse(localStorage.getItem(STORAGE_KEY));
-if (savedData) {
-    comment.value = savedData.message;
-    email.value = savedData.email;
-};
+
+function localStorageTest() {
+    if (savedData) {
+        comment.value = savedData.message;
+        email.value = savedData.email;
+    };
+    return;
+}
+localStorageTest();
 form.addEventListener("input", throttle(onInput, 500));
 form.addEventListener("submit", onSubmit);
 
